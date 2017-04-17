@@ -5,7 +5,8 @@
 #define V_LOAD_RESISTOR                 10 // kOhms
 #define WARMUP_TIME_MS                  15000  // milliseconds    
 #define BREATH_DELTA                    0.05    
-#define ALCOHOL_TOLERANCE_DELTA         0.50         
+#define ALCOHOL_TOLERANCE_DELTA         0.20
+#define RETURN_VOLTAGE                  true       
 
 // NAME HERE SETTINGS
 // ----------------------------------------------------------------------------------------------
@@ -28,32 +29,34 @@
 
 #define MOSFET_GAS_HEATER                    A2 
 #define MOSFET_FINGERPRINT                   A1 
-       
+
+// COMMON SETTINGS
+// ----------------------------------------------------------------------------------------------
+// These settings are used in both SW UART, HW UART and SPI mode
+// ----------------------------------------------------------------------------------------------
+#define BUFSIZE                        128   // Size of the read buffer for incoming data
+#define VERBOSE_MODE                   true  // If set to 'true' enables debug output
+#define DEVICE_NAME                    "Breathalock"
+
 
 // SOFTWARE UART SETTINGS
 // ----------------------------------------------------------------------------------------------
 // The following macros declare the pins that will be used for 'SW' serial.
 // You should use this option if you are connecting the UART Friend to an UNO
 // ----------------------------------------------------------------------------------------------
-#define BLUEFRUIT_SWUART_RXD_PIN       9    // Required for softwa`re serial!
+#define BLUEFRUIT_SWUART_RXD_PIN       9    // Required for software serial!
 #define BLUEFRUIT_SWUART_TXD_PIN       10   // Required for software serial!
 #define BLUEFRUIT_UART_CTS_PIN         11   // Required for software serial!
 #define BLUEFRUIT_UART_RTS_PIN         8   // Optional, set to -1 if unused
 
-// ----------------------------------------------------------------------------------------------
-// These settings are used in both SW UART, HW UART and SPI mode
-// ----------------------------------------------------------------------------------------------
-#define BUFSIZE                        128   // Size of the read buffer for incoming data
-#define VERBOSE_MODE                   false  // If set to 'true' enables debug output
-#define DEVICE_NAME                    "Breathalock"
 
 // HARDWARE UART SETTINGS
 // ----------------------------------------------------------------------------------------------
 // The following macros declare the HW serial port you are using. Uncomment
 // this line if you are connecting the BLE to Leonardo/Micro or Flora
 // ----------------------------------------------------------------------------------------------
-#ifdef Serial    // this makes it not complain on compilation if there's no Serial1
-  #define BLUEFRUIT_HWSERIAL_NAME      Serial
+#ifdef Serial1    // this makes it not complain on compilation if there's no Serial1
+  #define BLUEFRUIT_HWSERIAL_NAME      Serial1
 #endif
 
 
@@ -62,7 +65,5 @@
 // The following sets the optional Mode pin, its recommended but not required
 // ----------------------------------------------------------------------------------------------
 #define BLUEFRUIT_UART_MODE_PIN        -1    // Set to -1 if unused
-
-
 
 
