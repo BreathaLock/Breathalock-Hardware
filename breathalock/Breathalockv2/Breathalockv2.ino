@@ -67,7 +67,7 @@ void setup(void)
     bFingerprintInitialised = true;
   }
   //DEBUG WITHOUT FINGERPRINT UNCOMMENT BELOW
-//  bUnlockedFingerprint=true;
+  bUnlockedFingerprint=true; //COMMENT THIS COMMENT THIS COMMENT THIS!
   
 }
 
@@ -100,30 +100,33 @@ void loop(void)
         mq3AlcoholRead = readAlcoholGasSensor(1000);
         mq3Delta = readAlcoholDelta();
         if( ((abs(mq3Delta*100)) >= BREATH_DELTA*100) && !bUserIsOverTheLimit) { //is breathing
-        Serial.print("isBreathing delta = "); Serial.println(mq3Delta);
-        Serial.print("isBreathing tolerance = "); Serial.println(BREATH_DELTA);
-        if(mq3AlcoholRead > fHighestAlcoholRead) {
-            fHighestAlcoholRead = mq3AlcoholRead;
-        }
-        if(mq3Delta*100 >= ALCOHOL_TOLERANCE_DELTA*100) { //drunk
-          bUserIsOverTheLimit = true;
-          Serial.print("isDrunk Delta = "); Serial.println(mq3Delta);
-          digitalWrite(GATE_POWER_PIN,LOW);
-          colorChange(50,0,0); //red
-          stringifyAlcohol(fHighestAlcoholRead,false).toCharArray(commandToSend,30);
-        }else if (mq3Delta*100 < 0) {
-          Serial.print("notDrunk Delta = "); Serial.println(mq3Delta);
-          digitalWrite(GATE_POWER_PIN,HIGH); 
-          colorChange(0,50,0); //green
-          stringifyAlcohol(fHighestAlcoholRead,true).toCharArray(commandToSend,30);
-        }
-        Serial.print("ble signal = "); Serial.println(commandToSend);
-        ble.sendCommandCheckOK(commandToSend);
+          Serial.print("isBreathing delta = "); Serial.println(mq3Delta);
+          Serial.print("isBreathing tolerance = "); Serial.println(BREATH_DELTA);
+          if(mq3AlcoholRead > fHighestAlcoholRead) {
+              fHighestAlcoholRead = mq3AlcoholRead;
+          }
+          if(mq3Delta*100 >= ALCOHOL_TOLERANCE_DELTA*100) { //drunk
+            bUserIsOverTheLimit = true;
+            Serial.print("isDrunk Delta = "); Serial.println(mq3Delta);
+            digitalWrite(GATE_POWER_PIN,LOW);
+            colorChange(50,0,0); //red
+            stringifyAlcohol(fHighestAlcoholRead,false).toCharArray(commandToSend,30);
+          }else if (mq3Delta*100 < 0) {
+            Serial.print("notDrunk Delta = "); Serial.println(mq3Delta);
+            digitalWrite(GATE_POWER_PIN,HIGH); 
+            colorChange(0,50,0); //green
+            stringifyAlcohol(fHighestAlcoholRead,true).toCharArray(commandToSend,30);
+          }
+          Serial.print("ble signal = "); Serial.println(commandToSend);
+          ble.sendCommandCheckOK(commandToSend);
       }else {
         Serial.print("nothing read = "); Serial.println(mq3AlcoholRead);
         Serial.print("nothing abs(delta) = "); Serial.println( (float) abs( mq3Delta*100)/100);
         Serial.print("nothing delta = "); Serial.println(mq3Delta);
         Serial.print("nothing tolerance = "); Serial.println(BREATH_DELTA);
+        Serial.print("ble signal = "); Serial.println(commandToSend);
+//        stringifyAlcohol(fHighestAlcoholRead,false).toCharArray(commandToSend,30);
+//        ble.sendCommandCheckOK(commandToSend);
       }
     }
     
