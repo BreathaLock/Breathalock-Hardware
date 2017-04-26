@@ -67,7 +67,7 @@ void setup(void)
     bFingerprintInitialised = true;
   }
   //DEBUG WITHOUT FINGERPRINT UNCOMMENT BELOW
-  bUnlockedFingerprint=true; //COMMENT THIS COMMENT THIS COMMENT THIS!
+//  bUnlockedFingerprint=false; //COMMENT THIS COMMENT THIS COMMENT THIS!
   
 }
 
@@ -124,7 +124,7 @@ void loop(void)
         Serial.print("nothing abs(delta) = "); Serial.println( (float) abs( mq3Delta*100)/100);
         Serial.print("nothing delta = "); Serial.println(mq3Delta);
         Serial.print("nothing tolerance = "); Serial.println(BREATH_DELTA);
-        Serial.print("ble signal = "); Serial.println(commandToSend);
+//        Serial.print("ble signal = "); Serial.println(commandToSend);
 //        stringifyAlcohol(fHighestAlcoholRead,false).toCharArray(commandToSend,30);
 //        ble.sendCommandCheckOK(commandToSend);
       }
@@ -194,11 +194,11 @@ boolean colorChange(int red, int blue, int green ) {
 */
 /**************************************************************************/
 String stringifyAlcohol(float alcohol_val,boolean pass) {
-  String ATICommand= "AT+BLEUARTTX=";
+  String ATICommand= "AT+BLEUARTTX= ";
   String alcReadToStr;
   
   alcReadToStr = String(alcohol_val); //alcoholVal
-  alcReadToStr.concat(":"); //alcoholVal + " " 
+  alcReadToStr.concat(":"); //alcoholVal + ":" + (P|F) 
   if(pass) {
     alcReadToStr.concat("P");
   }else {
